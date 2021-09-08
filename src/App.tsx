@@ -8,8 +8,10 @@ import './App.css';
 const App:FC = () => {
     return (
         <Layout>
+            NAVBAR:
             <Navbar />
             <Layout.Content>
+                ROUTER:
                 <AppRouter />
             </Layout.Content>
         </Layout>
