@@ -10,10 +10,15 @@ import {AppDispatch} from "../../index";
 import axios from "axios";
 
 export const AuthActionCreators = {
+
     setIsAuth: (auth:boolean): SetAuthAction => ({type: AuthActionEnum.SET_AUTH, payload:auth}),
+
     setUser: (user:IUser): SetUserAction => ({type: AuthActionEnum.SET_USER, payload:user}),
+
     setIsLoading: (payload:boolean): SetIsLoadingAction => ({type: AuthActionEnum.SET_IS_LOADING, payload}),
+
     setError: (payload:string): SetErrorAction => ({type: AuthActionEnum.SET_ERROR, payload}),
+
     login: (username:string, password: string) => async(dispatch:AppDispatch) => {
         try {
             dispatch(AuthActionCreators.setIsLoading(true));
@@ -38,6 +43,7 @@ export const AuthActionCreators = {
             dispatch(AuthActionCreators.setError("We have Error during login"));
         }
     },
+
     logout: () => async (dispatch:AppDispatch) => {
         try {
             localStorage.removeItem('auth');
