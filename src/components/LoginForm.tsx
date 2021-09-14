@@ -1,13 +1,13 @@
 import React, {FC, useState} from 'react';
 import {Form, Input, Button, Card} from 'antd';
 import {rules} from "../utils/rules";
-import {useDispatch } from "react-redux";
-import {AuthActionCreators} from "../store/reducers/auth/action-creators";
+// import {useDispatch } from "react-redux";
+// import {AuthActionCreators} from "../store/reducers/auth/action-creators";
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {useAction} from "../hooks/useActions";
 
 const LoginForm : FC = () => {
-    const dispatch = useDispatch();
+   // const dispatch = useDispatch();
     const {error, isLoading} = useTypedSelector(state => state.auth);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -18,9 +18,7 @@ const LoginForm : FC = () => {
         // dispatch(AuthActionCreators.login(username, password));
         login(username, password); // используем хук useActions вместо диспатча
     }
-    const onFinishFailed = () => {
 
-    }
     return (
         <Card title="Login" bordered={false} style={{ width: 300 }}>
             <Form
@@ -29,7 +27,6 @@ const LoginForm : FC = () => {
                 wrapperCol={{ span: 16 }}
                 initialValues={{ remember: true }}
                 onFinish={submit}
-                onFinishFailed={onFinishFailed}
                 autoComplete="off"
             >
                 {error &&

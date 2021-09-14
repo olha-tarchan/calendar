@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Switch, Route, Redirect} from "react-router-dom";
 import {privatRoutes, publicRoutes, RouterName} from "../routes";
-import {useSelector} from "react-redux";
 import {useTypedSelector} from "../hooks/useTypedSelector";
 
 const AppRouter = () => {
