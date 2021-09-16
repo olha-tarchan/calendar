@@ -1,10 +1,10 @@
 import React, {FC, useEffect, useState} from 'react';
 import EventCalendar from "../components/EventCalendar";
-import { Row, Button, Modal} from "antd";
-import EventForm from "../components/EventForm";
+import { Row, Button} from "antd";
 import {useAction} from '../hooks/useActions'
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {IEvent} from "../models/IEvent";
+import ModalWindow from "../components/ModalWindow";
 
 
 const Event:FC = () => {
@@ -22,6 +22,13 @@ const Event:FC = () => {
         setModalVisible(false);
         createEvent(event);
     }
+    const editEvent = (event:any)  => {
+        setModalVisible(true);
+    }
+
+    const closeWindow = (i:boolean) => {
+        setModalVisible(false);
+    }
 
     return (
         <>
@@ -31,18 +38,12 @@ const Event:FC = () => {
                     onClick={()=>setModalVisible(true)}
                 >Add event</Button>
             </Row>
-
-            <Modal
-                title="Add event"
+            <ModalWindow
                 visible={modalVisible}
-                footer={null}
-                onCancel={()=> setModalVisible(false)}
-            >
-                <EventForm
-                    guests={guests}
-                    submit={addNewEvent}
-                />
-            </Modal>
+                changeVisible={closeWindow}
+                submit={addNewEvent}
+                guests={guests}
+            />
         </>
     );
 };

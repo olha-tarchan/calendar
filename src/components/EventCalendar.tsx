@@ -9,16 +9,19 @@ import './../App.css';
 interface EventCalendarProps {
     events: IEvent[]
 }
-const EventCalendar : FC<EventCalendarProps> = (props) => {
+const EventCalendar : FC<EventCalendarProps> = ({events}) => {
 
+    const selectEvent = (ev:any) => {
+        console.log("Select EV! ", ev);
+    }
     function dateCellRender(value: Moment) {
         const formatedDate = formatDate(value.toDate());
-        const currentDayEvents = props.events.filter(ev => ev.date === formatedDate);
+        const currentDayEvents = events.filter(ev => ev.date === formatedDate);
 
         return (
            <div className="events">
                {currentDayEvents.map((ev, index) =>{
-                   const titleEv = `${ev.guest || ev.author}: ${ev.description}`
+                   const titleEv = `${ev.guest || ev.author}: ${ev.description}`;
                    return (
                        <div
                            key={index}
