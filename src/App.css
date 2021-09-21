@@ -37,9 +37,12 @@
 .events > div:nth-child(3n)::before{
     background-color: #e9474c;
 }
-
-element.style {
-}
 .ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date-content {
     height: 50px;
+}
+.error{
+    color: #be2121;
+}
+.error-input {
+    border: 1px solid #be2121;
 }

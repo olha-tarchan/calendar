@@ -15,7 +15,3 @@ ReactDOM.render(
     </Provider>,
   document.getElementById('root')
 );
-
-
-//Provider - для связывания redux react
-//BrowserRouter - для работы с постраничной навигацией

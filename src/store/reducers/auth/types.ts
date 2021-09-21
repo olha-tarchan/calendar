@@ -1,5 +1,3 @@
-//Типизация (interface):
-
 import {IUser} from "../../../models/IUser";
 
 export interface AuthState {
@@ -15,11 +13,6 @@ export enum AuthActionEnum {
     SET_IS_LOADING = "SET_IS_LOADING"
 }
 
-
-
-/*  SetAuthAction - action с помощью которого меняем значения.
-    Данный интерфейс описывает поля данного екшина:
- */
 export interface SetAuthAction {
     type: AuthActionEnum.SET_AUTH,
     payload: boolean
@@ -38,10 +31,6 @@ export interface SetIsLoadingAction {
     payload: boolean
 }
 
-
-/*
-    Обобщающий тип, который объединяет все типы выше
- */
 export type AuthAction =
     SetAuthAction |
     SetErrorAction |

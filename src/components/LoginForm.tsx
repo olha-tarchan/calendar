@@ -1,22 +1,17 @@
 import React, {FC, useState} from 'react';
 import {Form, Input, Button, Card} from 'antd';
 import {rules} from "../utils/rules";
-// import {useDispatch } from "react-redux";
-// import {AuthActionCreators} from "../store/reducers/auth/action-creators";
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {useAction} from "../hooks/useActions";
 
 const LoginForm : FC = () => {
-   // const dispatch = useDispatch();
     const {error, isLoading} = useTypedSelector(state => state.auth);
+    const {login} = useAction();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const {login} = useAction();
-
 
     const submit = () => {
-        // dispatch(AuthActionCreators.login(username, password));
-        login(username, password); // используем хук useActions вместо диспатча
+        login(username, password);
     }
 
     return (
@@ -48,7 +43,6 @@ const LoginForm : FC = () => {
                 <Form.Item
                     label="Password"
                     name="password"
-                    //rules={[{ required: true, message: 'Please input your password!' }]}
                     rules={[ rules.required('Please input your password') ]}
                 >
                     <Input.Password

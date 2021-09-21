@@ -12,7 +12,7 @@ const App:FC = () => {
     const {setUser, setIsAuth} = useAction()
     useEffect(() => {
         if(localStorage.getItem('auth')){
-            setUser({username: localStorage.getItem("username" || '') }as IUser   )
+            setUser({username: localStorage.getItem("username" || '') } as IUser   )
             setIsAuth(true);
         }
     })
@@ -24,18 +24,7 @@ const App:FC = () => {
             </Content>
             <Footer style={{ textAlign: 'center' }}>2021 Created by Ant UED</Footer>
         </Layout>
-
-
-       /* <Layout>
-            <Navbar />
-            <Layout.Content>
-                <AppRouter />
-            </Layout.Content>
-        </Layout>*/
     );
 }
-
-
-App.propTypes = {};
 
 export default App;
