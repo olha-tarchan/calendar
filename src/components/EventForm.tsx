@@ -1,73 +1,109 @@
-import React, {FC, useState} from 'react';
-import {Button, Form, Input, DatePicker, Row, Select} from "antd";
+import React, {FC, useEffect, useState} from 'react';
+import {Button, DatePicker, Form, Input, Row, Select} from "antd";
 import {rules} from "../utils/rules";
-import {IUser} from "../models/IUser";
 import {IEvent} from "../models/IEvent";
-import {Moment} from "moment";
+import moment, {Moment} from "moment";
 import {formatDate} from "../utils/date";
 import {useTypedSelector} from "../hooks/useTypedSelector";
+import {useAction} from "../hooks/useActions";
 
-
-interface EventFormProps {
-    guests: IUser[];
-    submit: (event: IEvent) => void; //обычная ф-ция которая ничего не возращает но аргументом принимает event
-                                    // тоесть с помощью колбека будем передавать данные на уровень выше,
-                                    // к page/Event.tsx
+const initialEvent = {
+    id: '',
+    author: '',
+    guest: '',
+    date: formatDate(moment().toDate()),
+    description: ''
 }
-//const EventForm:FC<EventFormProps> = (props) => {
-const EventForm:FC<EventFormProps> = ({guests,submit}) => {
 
-    //создаем состояние в котором будем хронить изменения в форме:
-    const [event, setEvent] = useState<IEvent>({
-        author:'',
-        guest: '',
-        date:   '',
-        description:  '',
-    } as IEvent);
+const EventForm: FC = () => {
+    const {createEvent, editEvent, deleteEvent, closeModalWindow} = useAction();
+    const {user} = useTypedSelector(state => state.auth);
+    const {data} = useTypedSelector(state => state.modalWindow);
+    const {guests} = useTypedSelector<any>(state => state.event)
 
+    const [event, setEvent] = useState<IEvent>(initialEvent as IEvent);     //создаем состояние в котором будем хронить изменения в форме:
+    const [isEdit, setIsEdit] = useState(false);
 
-    const {user} = useTypedSelector(state => state.auth)//данные залогиненого user
+    const dateFormat = 'YYYY/MM/DD';
 
-    const selectDate = (date: Moment | null) => {
-        if(date){
-            setEvent({...event, date: formatDate(date.toDate())})
+    useEffect(() => {
+        if (data.author) {
+            setEvent({
+                ...event,
+                id: data.id,
+                author: data.author,
+                guest: data.guest,
+                date: data.date,
+                description: data.description
+            });
+            setIsEdit(true);
+        } else {
+            setEvent({
+                ...event,
+                ...initialEvent
+            });
+            setIsEdit(false);
+        }
+    }, [data]);
+
+    const selectDate = (dateMoment: Moment | null) => {
+        if (dateMoment) {
+            setEvent({...event, date: formatDate(dateMoment.toDate())})
         }
     }
 
+    const handleDeleteEvent = () => {
+        deleteEvent(event.id);
+        closeModalWindow();
+    }
     const submitForm = () => {
-        submit({...event, author: user.username}); //передаем в page/Event.tsx
+        if (isEdit) {
+            editEvent(event);
+        } else {
+            createEvent({
+                ...event,
+                id: `id-${Number(Date.now().toString())}-${event.description.replaceAll(" ", '')}`,
+                author: user.username
+            });
+        }
+        closeModalWindow();
     }
 
     return (
-        <Form
-            onFinish={submitForm}
-        >
+        <Form onFinish={submitForm}>
             <Form.Item
-                label="Description event"
-                rules={[ rules.required() ]}
+                label="Description"
             >
                 <Input
-                    name="description"
-                    onChange={e=> setEvent({...event, description: e.target.value})}
+                    name="descriptionValue"
+                    value={event.description}
+                    onChange={(e) => setEvent({
+                         ...event,
+                         description: e.target.value
+                     })}
                 />
             </Form.Item>
+
             <Form.Item
                 label="Date"
-                name="date"
-                rules={[ rules.isDateAfter("You can't create event in past") ]}
+                rules={[rules.isDateAfter("You can't create event in past")]}
             >
                 <DatePicker
+                    value={moment(event.date, dateFormat)}
+                    format={dateFormat}
                     onChange={(date) => selectDate(date)}
                 />
+
             </Form.Item>
             <Form.Item
                 label="Guest"
-                name="guest"
+                rules={[rules.required()]}
             >
                 <Select
-                   onChange={(guest:string) => setEvent({...event, guest }) }>
-                    {guests.map(gue =>
-                        <Select.Option value={gue.username} key={gue.username} >
+                    value={event.guest || event.author}
+                    onChange={(guest: string) => setEvent({...event, guest})}>
+                    {guests.map((gue: any) =>
+                        <Select.Option value={gue.username} key={gue.username}>
                             {gue.username}
                         </Select.Option>
                     )}
@@ -75,16 +111,24 @@ const EventForm:FC<EventFormProps> = ({guests,submit}) => {
             </Form.Item>
             <Row justify="end">
                 <Form.Item>
+                    {isEdit &&
+                    <Button
+                        style={{"marginRight": "10px"}}
+                        type="default"
+                        htmlType="button"
+                        onClick={handleDeleteEvent}>
+                        Delete
+                    </Button>}
                     <Button
                         type="primary"
-                        htmlType="submit" >
-                        Create
+                        htmlType="submit">
+                        {isEdit ? "Edit" : "Create"}
                     </Button>
                 </Form.Item>
             </Row>
-
         </Form>
     );
 };
 
 export default EventForm;
+

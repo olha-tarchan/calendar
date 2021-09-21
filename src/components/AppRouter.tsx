@@ -18,7 +18,6 @@ const AppRouter = () => {
                         key={route.path}
                     />
                     )}
-                    {/*если ни один роутер не был введен то показывать страницу Login:*/}
                     <Redirect to={RouterName.EVENT} />
             </Switch>
             :

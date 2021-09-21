@@ -1,34 +1,27 @@
 import React, {FC} from 'react';
 import {Modal} from "antd";
-import {IEvent} from "../models/IEvent";
 import EventForm from "./EventForm";
-import {IUser} from "../models/IUser";
+import {useAction} from "../hooks/useActions";
+import {useTypedSelector} from "../hooks/useTypedSelector";
 
 interface ModalWindowProps {
-    visible: boolean;
-    guests: IUser[];
-    submit: (event: IEvent) => void;
-    changeVisible: (i: boolean) => void
+    title: string;
 }
 
-const ModalWindow :FC<ModalWindowProps> = (props) => {
-
-    const cancelWindow = () =>{
-        props.changeVisible(false);
-    }
+const ModalWindow:FC<ModalWindowProps> = ({title}) => {
+    const {open, data} = useTypedSelector(state => state.modalWindow)  //данные залогиненого user
+    const {closeModalWindow} = useAction();
+    const isPropertyAuthor = data.hasOwnProperty("author");
 
     return (
         <div>
             <Modal
-               // title={ Object.keys(props.selectEvent).length ? "Edit event" : "Add event" }
-                title= "Add event"
-                visible={props.visible}
-                onCancel={()=> cancelWindow()}
+                title= {(isPropertyAuthor) ? "Edit event" : title }
+                visible={open}
+                onCancel={()=> closeModalWindow()}
                 footer={null}
             >
                 <EventForm
-                    guests={props.guests}
-                    submit={props.submit}
                 />
             </Modal>
         </div>

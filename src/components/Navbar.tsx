@@ -6,12 +6,8 @@ import {useTypedSelector} from "../hooks/useTypedSelector";
 import {useAction} from "../hooks/useActions";
 import {Header} from "antd/es/layout/layout";
 
-// import {useDispatch} from "react-redux";
-// import {AuthActionCreators} from "../store/reducers/auth/action-creators";
-
 const Navbar: FC = () => {
     const router = useHistory();
-    //  const dispatch = useDispatch();  вместо dispatch используем hook useActions
     const {logout} = useAction();
     const {user, isAuth} = useTypedSelector(state => state.auth);
 
@@ -25,8 +21,7 @@ const Navbar: FC = () => {
                     <div style={{color:'white'}}>{user.username}</div>
                     <Menu theme="dark" mode="horizontal" selectable={false} >
                         <Menu.Item
-                            // onClick={()=>dispatch(AuthActionCreators.logout())}
-                            onClick={logout}     // used hook useActions
+                            onClick={logout}
                             key={1}>
                             Out
                         </Menu.Item>

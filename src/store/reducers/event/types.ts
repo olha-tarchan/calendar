@@ -8,7 +8,8 @@ export interface EventState {
 
 export enum EventActionEnum {
     SET_GUESTS = "SET_GUESTS",
-    SET_EVENTS = "SET_EVENTS"
+    SET_EVENTS = "SET_EVENTS",
+    DELETE_EVENT = "DELETE_EVENT"
 }
 
 export interface SetGuestsAction {
@@ -21,7 +22,12 @@ export interface SetEventsAction {
     payload: IEvent[]
 }
 
-//пишим тип который обобщает два интерфейса:
+export interface DeleteEvent {
+    type: EventActionEnum.DELETE_EVENT;
+    payload: string
+}
+
 export type EventAction =
     SetEventsAction |
-    SetGuestsAction
+    SetGuestsAction |
+    DeleteEvent
