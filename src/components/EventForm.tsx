@@ -16,7 +16,7 @@ const initialEvent = {
 }
 
 const EventForm: FC = () => {
-    const {createEvent, editEvent, deleteEvent, closeModalWindow} = useAction();
+    const {createEvent, editEvent, deleteEvent, closeModalWindow, fetchEvents} = useAction();
     const {user} = useTypedSelector(state => state.auth);
     const {data} = useTypedSelector(state => state.modalWindow);
     const {guests} = useTypedSelector<any>(state => state.event)
@@ -27,6 +27,7 @@ const EventForm: FC = () => {
     const dateFormat = 'YYYY/MM/DD';
 
     useEffect(() => {
+        fetchEvents(user.username);
         if (data.author) {
             setEvent({
                 ...event,
