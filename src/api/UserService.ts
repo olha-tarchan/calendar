@@ -3,6 +3,6 @@ import {IUser} from "../models/IUser";
 
 export default class UserService {
     static async getUsers(): Promise<AxiosResponse<IUser[]>> {
-        return axios.get<IUser[]>('./user.json')
+        return axios.get<IUser[]>('./calendar/user.json')
     }
 }
