@@ -13,7 +13,7 @@ export enum RouterName {
     EVENT = '/'
 }
 
-export const publicRoutes: IRouter[] = [
+ export const publicRoutes: IRouter[] = [
     {path: RouterName.LOGIN, exact: true, component:Login }
 ]
 
