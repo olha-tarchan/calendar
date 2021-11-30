@@ -9,8 +9,8 @@ export interface IRouter {
 }
 
 export enum RouterName {
-    LOGIN = '/login',
-    EVENT = '/'
+    LOGIN = '/calendar/login',
+    EVENT = '/calendar'
 }
 
  export const publicRoutes: IRouter[] = [
